@@ -6,7 +6,7 @@ the Vizhi AI gateway and collecting model usage metadata.
 ## Requirements
 
 - Python 3.10 or newer
-- A valid Vizhi agent API token, such as `vz_live_...`
+- A valid Vizhi model token for direct model calls, or an agent CID plus API key for queue-based agent calls
 
 ## Installation
 
@@ -57,6 +57,33 @@ Authorization: Bearer vz_live_your_api_token
 
 The Vizhi backend validates the token, reads the model bound to that token, and
 routes the request to the correct model provider.
+
+### Agent-bound requests
+
+If you want to target a specific on-site agent, use the agent-aware helper:
+
+```python
+import vizhi_sdk as vs
+
+provider = vs.provide_agent_model(
+    agent_cid="ag_1234567890",
+    agent_token="vz_live_...",
+    model_name="llama3.1",
+    base_url="http://127.0.0.1:8000",
+)
+
+answer = provider.chat("Write a short summary.")
+```
+
+That flow sends:
+
+```text
+X-Agent-CID: ag_1234567890
+X-Agent-Token: vz_live_...
+```
+
+The backend queues the request for that agent, and only that agent can claim
+and complete it.
 
 ## Secure Configuration
 
@@ -128,6 +155,8 @@ model = vs.provide_model(token)
 The backend rejects requests if a caller tries to use a model that does not
 match the model bound to the token. The older `provide_model(model, token)` form
 is still available for agent-token compatibility.
+
+For agent queues, prefer `provide_agent_model(agent_cid, agent_token, model_name)`.
 
 ## Answer And Metadata
 
