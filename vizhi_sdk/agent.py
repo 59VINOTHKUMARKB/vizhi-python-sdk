@@ -10,6 +10,7 @@ from typing import Any, Iterable, Mapping
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
+from ._defaults import DEFAULT_BASE_URL
 from .client import _decode_json, _error_message, _normalize_messages, _parse_answer
 from .exceptions import APIError, AuthenticationError, InvalidResponseError
 from .models import ChatAnswer
@@ -66,9 +67,11 @@ class AgentQueueProvider:
         if timeout <= 0:
             raise ValueError("timeout must be greater than zero")
 
-        resolved_base_url = base_url or os.environ.get("VIZHI_BASE_URL")
-        if not resolved_base_url or not resolved_base_url.strip():
-            raise ValueError("base_url must not be empty")
+        resolved_base_url = (
+            base_url
+            or os.environ.get("VIZHI_BASE_URL")
+            or DEFAULT_BASE_URL
+        )
 
         self.agent_cid = agent_cid.strip()
         self.agent_token = agent_token.strip()
@@ -148,9 +151,11 @@ class AgentConnection:
         if timeout <= 0:
             raise ValueError("timeout must be greater than zero")
 
-        resolved_base_url = base_url or os.environ.get("VIZHI_BASE_URL")
-        if not resolved_base_url or not resolved_base_url.strip():
-            raise ValueError("base_url must not be empty")
+        resolved_base_url = (
+            base_url
+            or os.environ.get("VIZHI_BASE_URL")
+            or DEFAULT_BASE_URL
+        )
 
         self.agent_cid = agent_cid.strip()
         self.agent_token = agent_token.strip()

@@ -9,6 +9,7 @@ from typing import Any, Iterable, Mapping
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
+from ._defaults import DEFAULT_BASE_URL
 from .exceptions import APIError, AuthenticationError, InvalidResponseError
 from .models import ChatAnswer
 Message = Mapping[str, str]
@@ -32,9 +33,11 @@ class ModelProvider:
         if timeout <= 0:
             raise ValueError("timeout must be greater than zero")
 
-        resolved_base_url = base_url or os.environ.get("VIZHI_BASE_URL")
-        if not resolved_base_url or not resolved_base_url.strip():
-            raise ValueError("base_url must not be empty")
+        resolved_base_url = (
+            base_url
+            or os.environ.get("VIZHI_BASE_URL")
+            or DEFAULT_BASE_URL
+        )
 
         self.model = model.strip() if model else None
         self.token = token.strip()
