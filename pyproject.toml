@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "vizhi-sdk"
+version = "0.1.0"
+description = "Python SDK for the Vizhi AI gateway."
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+authors = [
+    {name = "Vizhi", email = "gopinathv19@gmail.com"},
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+[project.urls]
+Homepage = "https://github.com/Gopinathv19/vizhi-python-sdk"
+Repository = "https://github.com/Gopinathv19/vizhi-python-sdk"
+Issues = "https://github.com/Gopinathv19/vizhi-python-sdk/issues"
+
+[tool.setuptools.packages.find]
+include = ["vizhi_sdk*"]
